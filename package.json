@@ -1,0 +1,56 @@
+{
+  "name": "jsmart-loader",
+  "description": "Use jSmart (PHP Smarty port in JS) in Webpack.",
+  "main": "index.js",
+  "version": "1.0.0",
+  "url": "https://github.com/umakantp/jsmart-loader/",
+  "keywords": [
+    "jsmart",
+    "webpack",
+    "loader",
+    "smarty",
+    "template"
+  ],
+  "author": "Umakant Patil <me@umakantpatil.com>",
+  "contributors": [
+    {
+      "name": "Umakant Patil",
+      "email": "me@umakantpatil.com"
+    }
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "jsmart": "^2.13.0",
+    "webpack": "*"
+  },
+  "dependencies": {
+    "async": "2.5.0",
+    "jsmart": "3.0.2",
+    "lru-cache": "4.1.1",
+    "loader-utils": "1.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "10.2.1",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-node": "5.1.1",
+    "eslint-plugin-promise": "3.5.0",
+    "eslint-plugin-standard": "3.0.1",
+    "grunt": "1.0.1",
+    "grunt-eslint": "20.0.0",
+    "load-grunt-tasks": "3.5.2",
+    "mocha": "4.0.1",
+    "rollup-plugin-replace": "^2.0.0",
+    "should": "13.1.3"
+  },
+  "bugs": {
+    "url": "https://github.com/umakantp/jsmart-loader/issues"
+  },
+  "scripts": {
+    "test": "grunt eslint && mocha",
+    "precommit": "grunt eslint && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umakantp/jsmart-loader.git"
+  }
+}

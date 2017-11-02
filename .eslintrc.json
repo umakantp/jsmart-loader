@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "extends": "standard",
+  "env": {
+    "es6": false,
+    "node": true,
+    "amd": false,
+    "browser": false
+  },
+  "globals": {
+    "jSmart": true
+  },
+  "rules": {
+    "new-cap": ["error", { "newIsCapExceptions": ["jSmart"] }],
+    "no-unneeded-ternary": 0
+  }
+}
