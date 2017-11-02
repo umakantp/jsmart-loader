@@ -1,0 +1,8 @@
+.eslintrc.json
+
+/.editorconfig
+/.gitattributes
+/.travis.yml
+
+/test
+/Gruntfile.js
