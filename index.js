@@ -31,9 +31,9 @@ function loadFileSync (fullFilePath, callback) {
   return fs.readFileSync(fullFilePath, 'utf-8')
 }
 
-function handleFileSync (name, file) {
+function handleFileSync (name, file, leftDelim, rightDelim) {
   var fileData = loadFileSync(file)
-  var partials = findPartials(fileData)
+  var partials = findPartials(fileData, leftDelim, rightDelim)
   return {
     name: name,
     data: fileData,
@@ -41,13 +41,13 @@ function handleFileSync (name, file) {
   }
 }
 
-function handleFile (name, file, callback) {
+function handleFile (name, file, callback, leftDelim, rightDelim) {
   loadFile(file, function (err, fileData) {
     if (err) {
       return callback(err)
     }
 
-    var partials = findPartials(fileData)
+    var partials = findPartials(fileData, leftDelim, rightDelim)
     var data = {
       name: name,
       data: fileData,
@@ -64,7 +64,7 @@ function findUnloadedPartials (partialNames, loadedPartials) {
   })
 }
 
-function loadAllPartialsSync (unparsedPartials) {
+function loadAllPartialsSync (unparsedPartials, leftDelim, rightDelim) {
   var partials = {}
   if (unparsedPartials.length === 0) {
     return partials
@@ -76,7 +76,7 @@ function loadAllPartialsSync (unparsedPartials) {
       break
     }
     var fullFilePath = path.resolve(partial)
-    var partialData = handleFileSync(partial, fullFilePath)
+    var partialData = handleFileSync(partial, fullFilePath, leftDelim, rightDelim)
     partials[partialData.name] = partialData.data
     var consolidatedPartials = consolidatePartials([partialData])
     var partialsToLoad = findUnloadedPartials(consolidatedPartials, partials)
@@ -87,7 +87,7 @@ function loadAllPartialsSync (unparsedPartials) {
   return partials
 }
 
-function loadAllPartials (unparsedPartials, partials, callback) {
+function loadAllPartials (unparsedPartials, partials, callback, leftDelim, rightDelim) {
   if (!partials) {
     partials = {}
   }
@@ -96,7 +96,7 @@ function loadAllPartials (unparsedPartials, partials, callback) {
   }
   async.map(unparsedPartials, function (partial, next) {
     var fullFilePath = path.resolve(partial)
-    return handleFile(partial, fullFilePath, next)
+    return handleFile(partial, fullFilePath, next, leftDelim, rightDelim)
   }, function (err, data) {
     if (err) {
       return callback(err)
@@ -107,18 +107,28 @@ function loadAllPartials (unparsedPartials, partials, callback) {
 
     var consolidatedPartials = consolidatePartials(data)
     var partialsToLoad = findUnloadedPartials(consolidatedPartials, partials)
-    return loadAllPartials(partialsToLoad, partials, callback)
+    return loadAllPartials(partialsToLoad, partials, callback, leftDelim, rightDelim)
   })
 }
 
 function entry (source) {
   var query = loaderUtils.getOptions(this) || {}
+  var leftDelim = '{'
+  var rightDelim = '}'
 
   if (this.cacheable) {
     this.cacheable()
   }
 
-  var partialsList = findPartials(source)
+  if (query.leftDelim) {
+    leftDelim = query.leftDelim
+  }
+
+  if (query.rightDelim) {
+    leftDelim = query.rightDelim
+  }
+
+  var partialsList = findPartials(source, leftDelim, rightDelim)
   var partialStr = ''
 
   if (this.async && query.async) {
@@ -136,16 +146,12 @@ function entry (source) {
       }
       partialStr += '  };'
 
-      var dataToSend = 'var smarty = require("jsmart");\n' +
-        '\n' + partialStr + '\n' +
-          'module.exports = function() { ' +
-            'var comp = new smarty(' + JSON.stringify(source) + ');\n' +
-              'return comp.fetch.apply(comp, arguments); };'
+      var dataToSend = buildOutput(partialStr, source, leftDelim, rightDelim)
 
       callback(null, dataToSend)
-    })
+    }, leftDelim, rightDelim)
   } else {
-    var partialsData = loadAllPartialsSync(partialsList)
+    var partialsData = loadAllPartialsSync(partialsList, leftDelim, rightDelim)
 
     partialStr += 'smarty.prototype.getTemplate = function (name) {\n'
     for (var name in partialsData) {
@@ -155,12 +161,25 @@ function entry (source) {
     }
     partialStr += '  };'
 
-    return 'var smarty = require("jsmart");\n' +
-      '\n' + partialStr + '\n' +
-        'module.exports = function() { ' +
-          'var comp = new smarty(' + JSON.stringify(source) + ');\n' +
-            'return comp.fetch.apply(comp, arguments); };'
+    return buildOutput(partialStr, source, leftDelim, rightDelim)
   }
+}
+
+function buildOutput (partial, source, leftDelim, rightDelim) {
+  var t = 'var smarty = require("jsmart");\n' +
+    '\n' + partial + '\n' +
+      'module.exports = function() { '
+
+  if (leftDelim) {
+    t += 'smarty.prototype.ldelim = \'' + leftDelim + '\';'
+  }
+  if (rightDelim) {
+    t += 'smarty.prototype.ldelim = \'' + rightDelim + '\';'
+  }
+
+  t += 'var comp = new smarty(' + JSON.stringify(source) + ');\n' +
+    'return comp.fetch.apply(comp, arguments); };'
+  return t
 }
 
 module.exports = entry
