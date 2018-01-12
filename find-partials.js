@@ -1,8 +1,15 @@
-function findPartials (template, leftDelim, rightDelim) {
-  var includesRegex = new RegExp(leftDelim + '[\\s+]?(include)[^' + rightDelim[0] + ']*' + rightDelim, 'g')
-  var extendsRegex = new RegExp(leftDelim + '[\\s+]?(extends)[^' + rightDelim[0] + ']*' + rightDelim, 'g')
-  var includeSpecRegex = new RegExp(leftDelim + '[\\s+]?include(.*)' + rightDelim)
-  var extendsSpecRegex = new RegExp(leftDelim + '[\\s+]?extends(.*)' + rightDelim)
+function findPartials (template, leftDelim, rightDelim, autoLiteral) {
+  if (typeof autoLiteral === 'undefined') {
+    autoLiteral = true
+  }
+  var considerSpace = '[\\s+]?'
+  if (!autoLiteral) {
+    considerSpace = ''
+  }
+  var includesRegex = new RegExp(leftDelim + considerSpace + '(include)[^' + rightDelim[0] + ']*' + rightDelim, 'g')
+  var extendsRegex = new RegExp(leftDelim + considerSpace + '(extends)[^' + rightDelim[0] + ']*' + rightDelim, 'g')
+  var includeSpecRegex = new RegExp(leftDelim + considerSpace + 'include(.*)' + rightDelim)
+  var extendsSpecRegex = new RegExp(leftDelim + considerSpace + 'extends(.*)' + rightDelim)
   var allIncludes = template.match(includesRegex)
   var allExtends = template.match(extendsRegex)
   var allPartials = []

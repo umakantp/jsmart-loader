@@ -20,6 +20,11 @@ describe('findPartials', function () {
     sort(results).should.eql(['test'])
   })
 
+  it('should find a single partial with auto literal off', function () {
+    var results = findPartials("{ include file='test' }", '{', '}', false)
+    sort(results).should.eql([])
+  })
+
   it('should find multiple partials', function () {
     var results = findPartials("{include 'test1'} {include file='test2'}", '{', '}')
     sort(results).should.eql(['test1', 'test2'])
@@ -28,6 +33,16 @@ describe('findPartials', function () {
   it('should find multiple partials with custom delimiters', function () {
     var results = findPartials("{%include 'test1'%} {%include file='test2'%}", '{%', '%}')
     sort(results).should.eql(['test1', 'test2'])
+  })
+
+  it('should find multiple partials with auto literal off', function () {
+    var results = findPartials("{ include 'test1' } { include file='test2' }", '{', '}', false)
+    sort(results).should.eql([])
+  })
+
+  it('should find mixed partials with auto literal off', function () {
+    var results = findPartials("{ include 'test1' } {include file='test2'}", '{', '}', false)
+    sort(results).should.eql(['test2'])
   })
 
   it('should find partials with spaces around', function () {
