@@ -171,18 +171,31 @@ function entry (source) {
 }
 
 function buildOutput (partial, source, leftDelim, rightDelim, autoLiteral) {
+  var secondOptions = []
   var t = 'var smarty = require("jsmart");\n' +
     '\n' + partial + '\n' +
       'module.exports = function() { '
 
   if (leftDelim) {
-    t += 'smarty.prototype.ldelim = \'' + leftDelim + '\';'
+    secondOptions.push('ldelim: \'' + leftDelim + '\'')
   }
   if (rightDelim) {
-    t += 'smarty.prototype.ldelim = \'' + rightDelim + '\';'
+    secondOptions.push('rdelim: \'' + rightDelim + '\'')
+  }
+  if (typeof autoLiteral !== 'undefined') {
+    if (autoLiteral) {
+      autoLiteral = 'true'
+    } else {
+      autoLiteral = 'false'
+    }
+    secondOptions.push('autoLiteral: ' + autoLiteral)
+  }
+  var secondOptionsData = ''
+  if (secondOptions.length) {
+    secondOptionsData = ', {' + secondOptions.join(',') + '}'
   }
 
-  t += 'var comp = new smarty(' + JSON.stringify(source) + ');\n' +
+  t += 'var comp = new smarty(' + JSON.stringify(source) + secondOptionsData + ');\n' +
     'return comp.fetch.apply(comp, arguments); };'
   return t
 }
