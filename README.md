@@ -40,7 +40,7 @@ var template = require('./template.smarty');
 var html = template({ name: 'world' });
 ```
 
-If you want to set delimiters then you can pass on delimiters one (left or right) or both using options. You can also pass on if you wan to have auto delimiters detection on or off.
+If you want to set custom delimiters then you can pass on delimiters one (left or right) or both using options. You can also pass on auto delimiters detection on or off using options.
 
 ```javascript
 module: {
