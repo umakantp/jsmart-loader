@@ -40,4 +40,20 @@ var template = require('./template.smarty');
 var html = template({ name: 'world' });
 ```
 
+If you want to set delimiters then you can pass on delimiters one (left or right) or both using options. You can also pass on if you wan to have auto delimiters detection on or off.
+
+```javascript
+module: {
+  rules: [ {
+    test: /template\.smarty$/,
+    loader: 'jsmart-loader',
+    options: {
+      leftDelim: '{{',
+      rightDelim: '}}',
+      autoLiteral: false
+    },
+  } ]
+}
+```
+
 [Documentation: Using loaders](https://webpack.js.org/concepts/loaders/#using-loaders).
