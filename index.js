@@ -126,7 +126,7 @@ function entry (source) {
   }
 
   if (query.rightDelim) {
-    leftDelim = query.rightDelim
+    rightDelim = query.rightDelim
   }
 
   if (typeof query.autoLiteral !== 'undefined') {
