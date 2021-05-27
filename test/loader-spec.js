@@ -18,7 +18,7 @@ describe('jsmartLoader', function () {
         should.exist(module.exports)
         module.exports.should.be.type('function')
 
-        var templateResults = module.exports({ a: 5 })
+        var templateResults = module.exports({a: 5})
 
         templateResults.should.eql('<div>5</div>\n')
         done()
@@ -41,7 +41,7 @@ describe('jsmartLoader', function () {
         should.exist(module.exports)
         module.exports.should.be.type('function')
 
-        var templateResults = module.exports({ a: 5 })
+        var templateResults = module.exports({a: 5})
 
         templateResults.should.eql('Hello\n5 thats the number\n')
         done()

@@ -145,7 +145,7 @@ function entry (source) {
       }
       partialStr += 'smarty.prototype.getTemplate = function (name) {\n'
       for (var name in partialsData) {
-        if (partialsData.hasOwnProperty(name)) {
+        if (Object.prototype.hasOwnProperty.call(partialsData, name)) {
           partialStr += 'if (name == "' + name + '") { return ' + JSON.stringify(partialsData[name]) + '; }\n'
         }
       }
@@ -160,7 +160,7 @@ function entry (source) {
 
     partialStr += 'smarty.prototype.getTemplate = function (name) {\n'
     for (var name in partialsData) {
-      if (partialsData.hasOwnProperty(name)) {
+      if (Object.prototype.hasOwnProperty.call(partialsData, name)) {
         partialStr += 'if (name == "' + name + '") { return ' + JSON.stringify(partialsData[name]) + '; }\n'
       }
     }
