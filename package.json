@@ -2,7 +2,7 @@
   "name": "jsmart-loader",
   "description": "Use jSmart (PHP Smarty port in JS) in Webpack.",
   "main": "index.js",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "url": "https://github.com/umakantp/jsmart-loader/",
   "keywords": [
     "jsmart",
@@ -20,25 +20,25 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "jsmart": "^3.0.0",
+    "jsmart": "^4.0.0",
     "webpack": "*"
   },
   "dependencies": {
-    "async": "2.5.0",
+    "async": "3.2.0",
     "jsmart": "3.1.0",
-    "loader-utils": "1.1.0"
+    "loader-utils": "2.0.0"
   },
   "devDependencies": {
-    "eslint-config-standard": "10.2.1",
-    "eslint-plugin-import": "2.7.0",
-    "eslint-plugin-node": "5.1.1",
-    "eslint-plugin-promise": "3.5.0",
-    "eslint-plugin-standard": "3.0.1",
-    "grunt": "1.0.1",
-    "grunt-eslint": "20.0.0",
-    "load-grunt-tasks": "3.5.2",
-    "mocha": "4.0.1",
-    "should": "13.1.3"
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.23.3",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "5.1.0",
+    "eslint-plugin-standard": "5.0.0",
+    "grunt": "1.4.1",
+    "grunt-eslint": "23.0.0",
+    "load-grunt-tasks": "5.1.0",
+    "mocha": "8.4.0",
+    "should": "13.2.3"
   },
   "bugs": {
     "url": "https://github.com/umakantp/jsmart-loader/issues"
