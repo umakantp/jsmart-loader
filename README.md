@@ -15,8 +15,8 @@ npm install jsmart-loader --save-dev
 
 ## Usage
 
-
-#### webpack 2.x and webpack 3.x
+```
+#### webpack 2.x to webpack 5.x
 ```javascript
 module: {
     rules: [ {
