@@ -24,7 +24,7 @@
     "webpack": "*"
   },
   "dependencies": {
-    "async": "3.2.0",
+    "async": "3.2.2",
     "jsmart": "3.1.0",
     "loader-utils": "2.0.0"
   },
